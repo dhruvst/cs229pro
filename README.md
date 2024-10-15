@@ -1,1 +1,1 @@
-# cs229pro
+# Exploring Vector Quantization
