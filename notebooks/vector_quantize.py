@@ -993,6 +993,7 @@ class VectorQuantize(Module):
             return
 
         self.in_place_codebook_optimizer.step()
+#         print(list(self._codebook.parameters()))
         self.in_place_codebook_optimizer.zero_grad()
 
     def maybe_split_heads_from_input(self, x):
@@ -1074,13 +1075,12 @@ class VectorQuantize(Module):
         # quantize
 
         quantize, embed_ind, distances = self._codebook(x, **codebook_forward_kwargs)
-
+#         print('x=',x, 'quantize=',quantize, 'embed_ind=',embed_ind, 'distances=',distances)
         # losses for loss breakdown
 
         commit_loss = orthogonal_reg_loss = inplace_optimize_loss = codebook_diversity_loss = self.zero
 
         # one step in-place update
-
         if should_inplace_optimize and self.training and not freeze_codebook:
 
             if exists(mask):
